@@ -1,0 +1,10 @@
+name: frontend-api
+dependencies:
+  - orders
+  - products
+  - users
+parameters:
+  OrdersTableName: /ecommerce/{Environment}/orders/table/name
+  OrdersCreateOrderArn: /ecommerce/{Environment}/orders/create-order/arn
+  ProductsTableName: /ecommerce/{Environment}/products/table/name
+  UserPoolId: /ecommerce/{Environment}/users/user-pool/id
