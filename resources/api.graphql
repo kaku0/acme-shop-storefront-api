@@ -1,0 +1,120 @@
+input CreateOrderRequest @aws_cognito_user_pools {
+    products: [ProductInput!]!
+    address: AddressInput!
+    deliveryPrice: Int!
+    paymentToken: String!
+}
+
+input AddressInput {
+    name: String!
+    companyName: String
+    streetAddress: String!
+    postCode: String
+    city: String!
+    state: String
+    country: String!
+    phoneNumber: String!
+}
+
+input PackageInput {
+    width: Int
+    length: Int
+    height: Int
+    weight: Int
+}
+
+input ProductInput {
+    productId: ID!
+    createdDate: String
+    modifiedDate: String
+    name: String!
+    package: PackageInput!
+    category: String
+    tags: [String]
+    pictures: [String]
+    price: Int!
+    quantity: Int
+}
+
+type Address {
+    name: String!
+    companyName: String
+    streetAddress: String!
+    postCode: String
+    city: String!
+    state: String
+    country: String!
+    phoneNumber: String!
+}
+
+type CreateOrderResponse @aws_cognito_user_pools {
+    success: Boolean!
+    message: String!
+    errors: [String!]
+    order: Order
+}
+
+type Order @aws_cognito_user_pools {
+    orderId: ID!
+    userId: String!
+    createdDate: String!
+    modifiedDate: String!
+    status: String!
+    products: [Product!]!
+    address: Address!
+    deliveryPrice: Int!
+    total: Int!
+}
+
+type Package {
+    width: Int
+    length: Int
+    height: Int
+    weight: Int
+}
+
+type PaginatedOrders @aws_cognito_user_pools {
+    orders: [Order!]!
+    nextToken: String
+}
+
+type PaginatedProducts {
+    products: [Product!]!
+    nextToken: String
+}
+
+type Product {
+    productId: ID!
+    createdDate: String
+    modifiedDate: String
+    name: String!
+    package: Package!
+    category: String
+    tags: [String]
+    pictures: [String]
+    price: Int!
+    quantity: Int
+}
+
+type Query {
+    # Orders queries
+    getOrders(nextToken: String): PaginatedOrders!
+    @aws_cognito_user_pools
+    getOrder(orderId: ID!): Order
+    @aws_cognito_user_pools
+
+    # Products queries
+    getProducts(nextToken: String): PaginatedProducts!
+    getProduct(productId: ID!): Product
+    getProductsByCategory(category: String!): PaginatedProducts!
+}
+
+type Mutation {
+    createOrder(order: CreateOrderRequest!): CreateOrderResponse!
+    @aws_cognito_user_pools
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}
