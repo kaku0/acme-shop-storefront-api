@@ -20,27 +20,35 @@ Parameters:
     Description: Retention in days for CloudWatch log groups
   DeliveryPricingApiArn:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/delivery-pricing/api/arn
     Description: Delivery Pricing API ARN
   DeliveryPricingApiDomain:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/delivery-pricing/api/domain
     Description: Delivery Pricing API domain name
   DeliveryTableName:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/delivery/table/name
     Description: Delivery Table Name
   OrdersCreateOrderArn:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/orders/create-order/arn
     Description: Create Order Lambda Function ARN
   OrdersTableName:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/orders/table/name
     Description: Orders Table Name
   ProductsTableName:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/products/table/name
     Description: Products Table Name
   WarehouseTableName:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/warehouse/table/name
     Description: Warehouse Table Name
   UserPoolId:
     Type: AWS::SSM::Parameter::Value<String>
+    Default: /ecommerce/dev/users/user-pool/id
     Description: Cognito User Pool ID
 
 

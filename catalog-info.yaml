@@ -1,0 +1,114 @@
+# Backstage catalog for this repository. Shared entries (groups, systems) are identical in every ACME Shop repo.
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: storefront-api
+  title: Storefront API
+  description: GraphQL API behind the web shop and the mobile app; aggregates catalogue, orders, delivery and customer data.
+  tags:
+  - appsync
+  - graphql
+  annotations:
+    github.com/project-slug: kaku0/acme-shop-storefront-api
+    stackrails.io/hosts: api.acme-shop.example
+  links:
+  - url: https://github.com/kaku0/acme-shop-storefront-api
+    title: Source
+spec:
+  type: service
+  lifecycle: production
+  owner: group:storefront-team
+  system: storefront
+  providesApis:
+  - storefront-graphql-api
+  consumesApis:
+  - delivery-pricing-api
+  dependsOn:
+  - component:delivery
+  - component:delivery-pricing
+  - component:orders
+  - component:products
+  - component:users
+  - component:warehouse
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: storefront-graphql-api
+  description: GraphQL API used by the web shop and the mobile app.
+spec:
+  type: graphql
+  lifecycle: production
+  owner: group:storefront-team
+  system: storefront
+  definition:
+    $text: ./resources/api.graphql
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: storefront
+  description: The customer-facing web shop and mobile app API.
+spec:
+  owner: group:storefront-team
+  domain: commerce
+  type: product
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: acme-group
+  description: 'ACME Retail Group: online and in-store retail.'
+spec:
+  type: root
+  profile:
+    displayName: ACME Retail Group
+    email: acme-group@acme-shop.example
+  children:
+  - digital-commerce
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: digital-commerce
+  description: Everything behind the ACME online shop.
+spec:
+  type: business-unit
+  profile:
+    displayName: Digital Commerce
+    email: digital-commerce@acme-shop.example
+  parent: acme-group
+  children:
+  - customer-experience
+  - order-fulfilment
+  - finance-technology
+  - platform-engineering
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: customer-experience
+  description: Storefront, catalogue and customer accounts.
+spec:
+  type: department
+  profile:
+    displayName: Customer Experience
+    email: customer-experience@acme-shop.example
+  parent: digital-commerce
+  children:
+  - storefront-team
+  - catalog-team
+  - identity-team
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: storefront-team
+  description: Web shop and mobile app back end.
+spec:
+  type: team
+  profile:
+    displayName: Storefront Team
+    email: storefront-team@acme-shop.example
+  parent: customer-experience
+  children: []
